@@ -86,28 +86,28 @@ body{overflow-x:hidden}a{text-decoration:none;color:inherit}button{font:inherit}
 <aside class="sidebar">
 <div class="logo-wrap"><div style="font-size:42px;font-weight:900;letter-spacing:-3px;color:#ff7a18;text-shadow:0 0 18px rgba(255,122,24,.25)">MUAMBAY</div></div>
 <nav class="nav">
-<a class="active" href="#"><span class="icon">¦</span>Início</a>
-<a href="#ofertas"><span class="icon">?</span>Ofertas</a>
-<a href="#categorias"><span class="icon">?</span>Categorias</a>
-<a href="#novidades"><span class="icon">?</span>Novidades</a>
+<a class="active" href="#"><span class="icon">&#8962;</span>Início</a>
+<a href="#ofertas"><span class="icon">&#9671;</span>Ofertas</a>
+<a href="#categorias"><span class="icon">&#9633;</span>Categorias</a>
+<a href="#novidades"><span class="icon">&#10022;</span>Novidades</a>
 </nav>
 <div class="divider"></div><div class="cat-title">CATEGORIAS</div>
 <div class="cat" id="categorias">
-<a href="#"><span class="icon">?</span>Eletrônicos</a>
-<a href="#"><span class="icon">?</span>Casa & Decoração</a>
-<a href="#"><span class="icon">?</span>Informática</a>
-<a href="#"><span class="icon">?</span>Moda & Acessórios</a>
-<a href="#"><span class="icon">?</span>Automotivo</a>
+<a href="#"><span class="icon">&#9635;</span>Eletrônicos</a>
+<a href="#"><span class="icon">&#9673;</span>Casa &amp; Decoração</a>
+<a href="#"><span class="icon">&#9641;</span>Informática</a>
+<a href="#"><span class="icon">&#9671;</span>Moda &amp; Acessórios</a>
+<a href="#"><span class="icon">&#9649;</span>Automotivo</a>
 </div>
-<div class="sidebar-bottom"><span>? Ofertas selecionadas</span><span>Muambay</span></div>
+<div class="sidebar-bottom"><span>&#9889; Ofertas selecionadas</span><span>Muambay</span></div>
 </aside>
 
 <main class="main">
 <div class="topbar">
-<div class="trust-left"><span class="bubble">?</span>Ofertas encontradas para você</div>
+<div class="trust-left"><span class="bubble">&#10003;</span>Ofertas encontradas para você</div>
 <div class="trust-right">
-<div class="trust-item"><div class="round-icon">?</div><div><div class="t-title">Ofertas</div><div class="t-sub">Preços atualizados</div></div></div>
-<div class="trust-item"><div class="round-icon">??</div><div><div class="t-title">Links seguros</div><div class="t-sub">Confira a oferta</div></div></div>
+<div class="trust-item"><div class="round-icon">&#9889;</div><div><div class="t-title">Ofertas</div><div class="t-sub">Preços atualizados</div></div></div>
+<div class="trust-item"><div class="round-icon">&#128269;</div><div><div class="t-title">Links seguros</div><div class="t-sub">Confira a oferta</div></div></div>
 </div>
 </div>
 
@@ -120,7 +120,7 @@ body{overflow-x:hidden}a{text-decoration:none;color:inherit}button{font:inherit}
 </section>
 
 <div class="section-head" id="ofertas">
-<div class="section-title">?? Ofertas em destaque</div>
+<div class="section-title">&#128293; Ofertas em destaque</div>
 <div class="see" id="count">Carregando ofertas...</div>
 </div>
 
@@ -129,10 +129,10 @@ body{overflow-x:hidden}a{text-decoration:none;color:inherit}button{font:inherit}
 </section>
 
 <section class="features" id="novidades">
-<div class="feature"><div class="feature-icon">?</div><div><div class="feature-title">Ofertas rápidas</div><div class="feature-desc">Produtos atualizados.</div></div></div>
-<div class="feature"><div class="feature-icon">??</div><div><div class="feature-title">Compare preços</div><div class="feature-desc">Veja o valor antes de comprar.</div></div></div>
-<div class="feature"><div class="feature-icon">?</div><div><div class="feature-title">Selecionados</div><div class="feature-desc">Só ofertas interessantes.</div></div></div>
-<div class="feature"><div class="feature-icon">?</div><div><div class="feature-title">Ver oferta</div><div class="feature-desc">Você vai direto para a loja.</div></div></div>
+<div class="feature"><div class="feature-icon">&#9889;</div><div><div class="feature-title">Ofertas rápidas</div><div class="feature-desc">Produtos atualizados.</div></div></div>
+<div class="feature"><div class="feature-icon">&#128269;</div><div><div class="feature-title">Compare preços</div><div class="feature-desc">Veja o valor antes de comprar.</div></div></div>
+<div class="feature"><div class="feature-icon">&#9733;</div><div><div class="feature-title">Selecionados</div><div class="feature-desc">Só ofertas interessantes.</div></div></div>
+<div class="feature"><div class="feature-icon">&#8599;</div><div><div class="feature-title">Ver oferta</div><div class="feature-desc">Você vai direto para a loja.</div></div></div>
 </section>
 </main>
 </div>
@@ -166,7 +166,7 @@ function render(products){
    if(Array.isArray(img)) img=img[0]?.url||img[0]?.thumbnails?.large?.url||"";
    if(img && typeof img==="object") img=img.url||img.thumbnails?.large?.url||"";
    img=img||fallbackImage();
-   const link=p.link||"#";
+   const link=p.link_afiliado||p.link||"#";
    return `<article class="card">
      ${d?`<div class="discount">-${d}%</div>`:""}
      <div class="prod-img"><img src="${esc(img)}" alt="${esc(p.nome)}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImage()}'"></div>
@@ -174,7 +174,7 @@ function render(products){
      ${p.categoria?`<div class="category">${esc(p.categoria)}</div>`:""}
      ${p.preco!==null&&p.preco!==undefined?`<div class="price">${money(p.preco)}</div>`:""}
      ${p.preco_antigo?`<div class="old">${money(p.preco_antigo)}</div>`:""}
-     <div class="card-actions"><button class="offer" onclick="openOffer('${esc(link)}')">? &nbsp; Ver oferta</button></div>
+     <div class="card-actions"><button class="offer" onclick="openOffer('${esc(link)}')">&#8599; &nbsp; Ver oferta</button></div>
    </article>`;
  }).join("");
 }
