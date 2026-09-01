@@ -1,204 +1,1250 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Muambay — Ofertas</title>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 :root{
  --bg:#070809;--panel:#101216;--panel2:#15181d;--line:#292d34;
  --text:#f7f7f8;--muted:#a4a7af;--orange:#ff7a18;--yellow:#ffb000;
  --green:#00e676;--pink:#ff3b9d;
 }
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
-body{overflow-x:hidden}a{text-decoration:none;color:inherit}button{font:inherit}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:255px;flex:0 0 255px;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#090a0c,#060708);border-right:1px solid #24272d;padding:20px 22px;z-index:10}
-.logo-wrap{height:145px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-.logo{width:155px;height:155px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,122,24,.2))}
-.nav{display:flex;flex-direction:column;gap:3px}.nav a,.cat a{height:41px;border-radius:9px;display:flex;align-items:center;gap:13px;color:#c9cbd0;padding:0 13px;font-size:14px}
-.nav a:hover,.cat a:hover{background:#17130e;color:#fff}.nav a.active{border:1px solid #ff7418;background:linear-gradient(90deg,rgba(255,122,24,.17),rgba(255,176,0,.05));color:#fff}
-.icon{width:18px;text-align:center;font-size:17px}.active .icon{color:#ff8b2b}
-.divider{height:1px;background:#25282e;margin:10px 0}.cat-title{font-size:11px;color:#8f9299;margin:11px 13px 6px;letter-spacing:.08em}
-.cat a{height:31px;font-size:13px}.cat a .icon{font-size:14px;color:#aeb1b8}
-.sidebar-bottom{position:absolute;bottom:18px;left:32px;right:32px;display:flex;justify-content:space-between;color:#858990;font-size:10px}
-.main{margin-left:255px;flex:1;padding:27px 42px 25px;min-width:0}
-.topbar{height:42px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.trust-left{display:flex;align-items:center;gap:10px;color:#d5d7dc;font-size:12px}.bubble{width:23px;height:23px;border:1px solid #555b65;border-radius:50%;display:grid;place-items:center}
-.trust-right{display:flex;gap:18px}.trust-item{display:flex;align-items:center;gap:9px;padding-right:17px;border-right:1px solid #292c32}.trust-item:last-child{border:0}
-.round-icon{width:35px;height:35px;border:1px solid #333740;border-radius:50%;display:grid;place-items:center;color:#ff8526}.t-title{font-size:11px;font-weight:700}.t-sub{font-size:9px;color:#8e9198;margin-top:2px}
-.hero{height:340px;border-radius:22px;border:1px solid #34281d;overflow:hidden;position:relative;background:radial-gradient(circle at 78% 55%,rgba(255,111,20,.22),transparent 28%),radial-gradient(circle at 55% 20%,rgba(255,177,0,.09),transparent 30%),linear-gradient(135deg,#0c0906,#11100d 55%,#090807)}
-.hero:before{content:"";position:absolute;inset:-30%;background:linear-gradient(45deg,transparent 48%,rgba(255,122,24,.16) 48.3%,transparent 49%),linear-gradient(-45deg,transparent 62%,rgba(255,183,0,.11) 62.3%,transparent 63%);opacity:.9}
-.hero-content{position:absolute;left:75px;top:38px;z-index:2}.kicker{font-size:13px;color:#d8d9dc;margin-bottom:9px}
-.hero h1{margin:0;font-size:54px;line-height:.95;font-weight:900;letter-spacing:-2px;background:linear-gradient(90deg,#ff9b35,#ff6b18,#ffc04b);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero h2{margin:7px 0 12px;font-size:24px;font-weight:600}.hero p{font-size:14px;color:#bfc1c6;line-height:1.5;max-width:430px;margin:0}
-.hero-glow{position:absolute;right:90px;top:55px;width:290px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,24,.2),transparent 65%);filter:blur(10px)}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:29px 9px 16px}.section-title{font-size:16px;font-weight:800}.see{font-size:12px;color:#cfd1d6}
-.products{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
-.card{height:345px;border:1px solid #292d33;border-radius:15px;background:linear-gradient(145deg,#15181c,#101216);overflow:hidden;position:relative;padding:0 14px 13px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.card:hover{border-color:#68411f;transform:translateY(-2px);transition:.18s}.discount{position:absolute;left:13px;top:13px;background:linear-gradient(90deg,#ff5b43,#e72a6e);border-radius:10px;padding:5px 8px;font-size:10px;font-weight:800;z-index:2}
-.prod-img{height:155px;margin:0 -2px;display:flex;align-items:center;justify-content:center;overflow:hidden}.prod-img img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 9px rgba(0,0,0,.35))}
-.card h3{font-size:14px;line-height:1.35;margin:5px 0 10px;min-height:38px}.category{font-size:10px;color:#8f9299;margin-bottom:9px}
-.price{font-size:17px;color:var(--green);font-weight:800}.old{font-size:10px;color:#85878d;text-decoration:line-through;margin:4px 0 12px}
-.card-actions{position:absolute;bottom:13px;left:14px;right:14px}.offer{width:100%;height:38px;border:1px solid #ff7418;border-radius:8px;background:linear-gradient(90deg,#ff7317,#ff9d18);color:#170b02;font-size:12px;font-weight:900;cursor:pointer}
-.offer:hover{filter:brightness(1.08)}
-.empty,.error{grid-column:1/-1;padding:35px;text-align:center;color:#92959c;border:1px dashed #30343b;border-radius:14px}
-.features{margin-top:21px;border:1px solid #25292f;border-radius:15px;background:#0d1014;display:grid;grid-template-columns:repeat(4,1fr);padding:20px 28px}
-.feature{display:flex;align-items:center;gap:14px;padding:0 20px;border-right:1px solid #272b31}.feature:first-child{padding-left:0}.feature:last-child{border:0}
-.feature-icon{font-size:27px;color:#ff8524}.feature-title{font-size:12px;font-weight:700;margin-bottom:5px}.feature-desc{font-size:10px;color:#999ca3}
-.loading{opacity:.6}
-@media(max-width:1200px){.main{padding:23px}.products{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:820px){.sidebar{position:relative;width:100%;height:auto;padding-bottom:25px}.layout{display:block}.main{margin:0;padding:16px}.topbar{display:none}.logo-wrap{height:105px}.logo{width:115px;height:115px}.cat{display:none}.hero{height:390px}.hero-content{left:28px;top:30px}.hero h1{font-size:42px}.products{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:repeat(2,1fr);gap:15px}.feature{border:0;padding:0}}
-@media(max-width:520px){.sidebar{display:none}.main{padding:12px}.hero{height:380px;border-radius:15px}.hero-content{left:22px;right:18px}.hero h1{font-size:36px}.hero h2{font-size:20px}.hero p{font-size:12px}.products{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature{padding:10px 0}.card{height:345px}}
+
+*{box-sizing:border-box}
+html,body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Inter,Arial,sans-serif
+}
+body{overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+
+.layout{
+ display:flex;
+ min-height:100vh
+}
+
+.sidebar{
+ width:255px;
+ flex:0 0 255px;
+ position:fixed;
+ inset:0 auto 0 0;
+ background:linear-gradient(180deg,#090a0c,#060708);
+ border-right:1px solid #24272d;
+ padding:20px 22px;
+ z-index:10
+}
+
+.logo-wrap{
+ height:145px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ margin-bottom:14px
+}
+
+.logo{
+ width:155px;
+ height:155px;
+ object-fit:contain;
+ filter:drop-shadow(0 0 14px rgba(255,122,24,.2))
+}
+
+.nav{
+ display:flex;
+ flex-direction:column;
+ gap:3px
+}
+
+.nav a,.cat a{
+ height:41px;
+ border-radius:9px;
+ display:flex;
+ align-items:center;
+ gap:13px;
+ color:#c9cbd0;
+ padding:0 13px;
+ font-size:14px
+}
+
+.nav a:hover,.cat a:hover{
+ background:#17130e;
+ color:#fff
+}
+
+.nav a.active{
+ border:1px solid #ff7418;
+ background:linear-gradient(
+   90deg,
+   rgba(255,122,24,.17),
+   rgba(255,176,0,.05)
+ );
+ color:#fff
+}
+
+.icon{
+ width:18px;
+ text-align:center;
+ font-size:17px
+}
+
+.active .icon{
+ color:#ff8b2b
+}
+
+.divider{
+ height:1px;
+ background:#25282e;
+ margin:10px 0
+}
+
+.cat-title{
+ font-size:11px;
+ color:#8f9299;
+ margin:11px 13px 6px;
+ letter-spacing:.08em
+}
+
+.cat a{
+ height:31px;
+ font-size:13px
+}
+
+.cat a .icon{
+ font-size:14px;
+ color:#aeb1b8
+}
+
+.sidebar-bottom{
+ position:absolute;
+ bottom:18px;
+ left:32px;
+ right:32px;
+ display:flex;
+ justify-content:space-between;
+ color:#858990;
+ font-size:10px
+}
+
+.main{
+ margin-left:255px;
+ flex:1;
+ padding:27px 42px 25px;
+ min-width:0
+}
+
+.topbar{
+ height:42px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:20px
+}
+
+.trust-left{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ color:#d5d7dc;
+ font-size:12px
+}
+
+.bubble{
+ width:23px;
+ height:23px;
+ border:1px solid #555b65;
+ border-radius:50%;
+ display:grid;
+ place-items:center
+}
+
+.trust-right{
+ display:flex;
+ gap:18px
+}
+
+.trust-item{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ padding-right:17px;
+ border-right:1px solid #292c32
+}
+
+.trust-item:last-child{
+ border:0
+}
+
+.round-icon{
+ width:35px;
+ height:35px;
+ border:1px solid #333740;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ color:#ff8526
+}
+
+.t-title{
+ font-size:11px;
+ font-weight:700
+}
+
+.t-sub{
+ font-size:9px;
+ color:#8e9198;
+ margin-top:2px
+}
+
+.hero{
+ height:340px;
+ border-radius:22px;
+ border:1px solid #34281d;
+ overflow:hidden;
+ position:relative;
+ background:
+ radial-gradient(
+   circle at 78% 55%,
+   rgba(255,111,20,.22),
+   transparent 28%
+ ),
+ radial-gradient(
+   circle at 55% 20%,
+   rgba(255,177,0,.09),
+   transparent 30%
+ ),
+ linear-gradient(
+   135deg,
+   #0c0906,
+   #11100d 55%,
+   #090807
+ )
+}
+
+.hero:before{
+ content:"";
+ position:absolute;
+ inset:-30%;
+ background:
+ linear-gradient(
+   45deg,
+   transparent 48%,
+   rgba(255,122,24,.16) 48.3%,
+   transparent 49%
+ ),
+ linear-gradient(
+   -45deg,
+   transparent 62%,
+   rgba(255,183,0,.11) 62.3%,
+   transparent 63%
+ );
+ opacity:.9
+}
+
+.hero-content{
+ position:absolute;
+ left:75px;
+ top:38px;
+ z-index:2
+}
+
+.kicker{
+ font-size:13px;
+ color:#d8d9dc;
+ margin-bottom:9px
+}
+
+.hero h1{
+ margin:0;
+ font-size:54px;
+ line-height:.95;
+ font-weight:900;
+ letter-spacing:-2px;
+ background:linear-gradient(
+   90deg,
+   #ff9b35,
+   #ff6b18,
+   #ffc04b
+ );
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent
+}
+
+.hero h2{
+ margin:7px 0 12px;
+ font-size:24px;
+ font-weight:600
+}
+
+.hero p{
+ font-size:14px;
+ color:#bfc1c6;
+ line-height:1.5;
+ max-width:430px;
+ margin:0
+}
+
+.hero-glow{
+ position:absolute;
+ right:90px;
+ top:55px;
+ width:290px;
+ height:230px;
+ border-radius:50%;
+ background:radial-gradient(
+   circle,
+   rgba(255,122,24,.2),
+   transparent 65%
+ );
+ filter:blur(10px)
+}
+
+.section-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin:29px 9px 16px
+}
+
+.section-title{
+ font-size:16px;
+ font-weight:800
+}
+
+.see{
+ font-size:12px;
+ color:#cfd1d6
+}
+
+.products{
+ display:grid;
+ grid-template-columns:repeat(5,minmax(0,1fr));
+ gap:14px
+}
+
+.card{
+ height:345px;
+ border:1px solid #292d33;
+ border-radius:15px;
+ background:linear-gradient(
+   145deg,
+   #15181c,
+   #101216
+ );
+ overflow:hidden;
+ position:relative;
+ padding:0 14px 13px;
+ box-shadow:0 8px 24px rgba(0,0,0,.18)
+}
+
+.card:hover{
+ border-color:#68411f;
+ transform:translateY(-2px);
+ transition:.18s
+}
+
+.discount{
+ position:absolute;
+ left:13px;
+ top:13px;
+ background:linear-gradient(
+   90deg,
+   #ff5b43,
+   #e72a6e
+ );
+ border-radius:10px;
+ padding:5px 8px;
+ font-size:10px;
+ font-weight:800;
+ z-index:2
+}
+
+.prod-img{
+ height:155px;
+ margin:0 -2px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow:hidden
+}
+
+.prod-img img{
+ width:100%;
+ height:100%;
+ object-fit:contain;
+ filter:drop-shadow(0 8px 9px rgba(0,0,0,.35))
+}
+
+.card h3{
+ font-size:14px;
+ line-height:1.35;
+ margin:5px 0 10px;
+ min-height:38px
+}
+
+.category{
+ font-size:10px;
+ color:#8f9299;
+ margin-bottom:9px
+}
+
+.price{
+ font-size:17px;
+ color:var(--green);
+ font-weight:800
+}
+
+.old{
+ font-size:10px;
+ color:#85878d;
+ text-decoration:line-through;
+ margin:4px 0 12px
+}
+
+.card-actions{
+ position:absolute;
+ bottom:13px;
+ left:14px;
+ right:14px
+}
+
+.offer{
+ width:100%;
+ height:38px;
+ border:1px solid #ff7418;
+ border-radius:8px;
+ background:linear-gradient(
+   90deg,
+   #ff7317,
+   #ff9d18
+ );
+ color:#170b02;
+ font-size:12px;
+ font-weight:900;
+ cursor:pointer
+}
+
+.offer:hover{
+ filter:brightness(1.08)
+}
+
+.empty,.error{
+ grid-column:1/-1;
+ padding:35px;
+ text-align:center;
+ color:#92959c;
+ border:1px dashed #30343b;
+ border-radius:14px
+}
+
+.features{
+ margin-top:21px;
+ border:1px solid #25292f;
+ border-radius:15px;
+ background:#0d1014;
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ padding:20px 28px
+}
+
+.feature{
+ display:flex;
+ align-items:center;
+ gap:14px;
+ padding:0 20px;
+ border-right:1px solid #272b31
+}
+
+.feature:first-child{
+ padding-left:0
+}
+
+.feature:last-child{
+ border:0
+}
+
+.feature-icon{
+ font-size:27px;
+ color:#ff8524
+}
+
+.feature-title{
+ font-size:12px;
+ font-weight:700;
+ margin-bottom:5px
+}
+
+.feature-desc{
+ font-size:10px;
+ color:#999ca3
+}
+
+.loading{
+ opacity:.6
+}
 
 /* Muambay final visual */
+
 .compact-hero{
-  height:150px!important;
-  border-radius:18px!important;
-  background:
-    radial-gradient(circle at 82% 50%,rgba(255,122,24,.16),transparent 27%),
-    linear-gradient(135deg,#0d0e10,#111316)!important;
+ height:150px!important;
+ border-radius:18px!important;
+ background:
+ radial-gradient(
+   circle at 82% 50%,
+   rgba(255,122,24,.16),
+   transparent 27%
+ ),
+ linear-gradient(
+   135deg,
+   #0d0e10,
+   #111316
+ )!important
 }
-.compact-hero:before{opacity:.22!important}
-.compact-hero .hero-content{left:35px;top:28px}
-.compact-hero h1{font-size:34px;letter-spacing:-1px;margin:0 0 7px}
-.compact-hero p{font-size:12px;max-width:560px}
-.products{grid-template-columns:repeat(4,minmax(0,1fr))}
-.card{height:365px}
-.prod-img{height:175px;background:#0d0f12;border-radius:10px;margin:10px 0 4px}
-.prod-img img{object-fit:contain;padding:8px}
-@media(max-width:1200px){.products{grid-template-columns:repeat(3,1fr)}}
+
+.compact-hero:before{
+ opacity:.22!important
+}
+
+.compact-hero .hero-content{
+ left:35px;
+ top:28px
+}
+
+.compact-hero h1{
+ font-size:34px;
+ letter-spacing:-1px;
+ margin:0 0 7px
+}
+
+.compact-hero p{
+ font-size:12px;
+ max-width:560px
+}
+
+.products{
+ grid-template-columns:repeat(4,minmax(0,1fr))
+}
+
+.card{
+ height:365px
+}
+
+.prod-img{
+ height:175px;
+ background:#0d0f12;
+ border-radius:10px;
+ margin:10px 0 4px
+}
+
+.prod-img img{
+ object-fit:contain;
+ padding:8px
+}
+
+@media(max-width:1200px){
+ .main{
+   padding:23px
+ }
+
+ .products{
+   grid-template-columns:repeat(3,1fr)
+ }
+}
+
 @media(max-width:820px){
- .compact-hero{height:145px!important}
- .compact-hero .hero-content{left:24px;top:24px}
- .compact-hero h1{font-size:28px}
- .products{grid-template-columns:repeat(2,1fr)}
+
+ .sidebar{
+   position:relative;
+   width:100%;
+   height:auto;
+   padding-bottom:25px
+ }
+
+ .layout{
+   display:block
+ }
+
+ .main{
+   margin:0;
+   padding:16px
+ }
+
+ .topbar{
+   display:none
+ }
+
+ .logo-wrap{
+   height:105px
+ }
+
+ .logo{
+   width:115px;
+   height:115px
+ }
+
+ .cat{
+   display:none
+ }
+
+ .hero{
+   height:390px
+ }
+
+ .hero-content{
+   left:28px;
+   top:30px
+ }
+
+ .hero h1{
+   font-size:42px
+ }
+
+ .products{
+   grid-template-columns:repeat(2,1fr)
+ }
+
+ .features{
+   grid-template-columns:repeat(2,1fr);
+   gap:15px
+ }
+
+ .feature{
+   border:0;
+   padding:0
+ }
+
+ .compact-hero{
+   height:145px!important
+ }
+
+ .compact-hero .hero-content{
+   left:24px;
+   top:24px
+ }
+
+ .compact-hero h1{
+   font-size:28px
+ }
 }
+
 @media(max-width:520px){
- .compact-hero{height:155px!important}
- .products{grid-template-columns:1fr}
+
+ .sidebar{
+   display:none
+ }
+
+ .main{
+   padding:12px
+ }
+
+ .hero{
+   height:380px;
+   border-radius:15px
+ }
+
+ .hero-content{
+   left:22px;
+   right:18px
+ }
+
+ .hero h1{
+   font-size:36px
+ }
+
+ .hero h2{
+   font-size:20px
+ }
+
+ .hero p{
+   font-size:12px
+ }
+
+ .products{
+   grid-template-columns:1fr
+ }
+
+ .features{
+   grid-template-columns:1fr
+ }
+
+ .feature{
+   padding:10px 0
+ }
+
+ .card{
+   height:345px
+ }
+
+ .compact-hero{
+   height:155px!important
+ }
 }
 </style>
+
 </head>
+
 <body>
+
 <div class="layout">
+
 <aside class="sidebar">
-<div class="logo-wrap"><div style="font-size:42px;font-weight:900;letter-spacing:-3px;color:#ff7a18;text-shadow:0 0 18px rgba(255,122,24,.25)">MUAMBAY</div></div>
-<nav class="nav">
-<a class="active" href="#"><span class="icon">⌂</span>Início</a>
-<a href="#ofertas"><span class="icon">◇</span>Ofertas</a>
-<a href="#categorias"><span class="icon">▦</span>Categorias</a>
-<a href="#novidades"><span class="icon">✦</span>Novidades</a>
-</nav>
-<div class="divider"></div><div class="cat-title">CATEGORIAS</div>
-<div class="cat" id="categorias">
-<a href="#"><span class="icon">▣</span>Eletrônicos</a>
-<a href="#"><span class="icon">◉</span>Casa & Decoração</a>
-<a href="#"><span class="icon">▤</span>Informática</a>
-<a href="#"><span class="icon">◇</span>Moda & Acessórios</a>
-<a href="#"><span class="icon">▱</span>Automotivo</a>
+
+<div class="logo-wrap">
+<div style="
+font-size:42px;
+font-weight:900;
+letter-spacing:-3px;
+color:#ff7a18;
+text-shadow:0 0 18px rgba(255,122,24,.25)
+">
+MUAMBAY
 </div>
-<div class="sidebar-bottom"><span>⚡ Ofertas selecionadas</span><span>Muambay</span></div>
+</div>
+
+<nav class="nav">
+<a class="active" href="#">
+<span class="icon">⌂</span>Início
+</a>
+
+<a href="#ofertas">
+<span class="icon">◇</span>Ofertas
+</a>
+
+<a href="#categorias">
+<span class="icon">▦</span>Categorias
+</a>
+
+<a href="#novidades">
+<span class="icon">✦</span>Novidades
+</a>
+</nav>
+
+<div class="divider"></div>
+
+<div class="cat-title">CATEGORIAS</div>
+
+<div class="cat" id="categorias">
+
+<a href="#">
+<span class="icon">▣</span>Eletrônicos
+</a>
+
+<a href="#">
+<span class="icon">◉</span>Casa & Decoração
+</a>
+
+<a href="#">
+<span class="icon">▤</span>Informática
+</a>
+
+<a href="#">
+<span class="icon">◇</span>Moda & Acessórios
+</a>
+
+<a href="#">
+<span class="icon">▱</span>Automotivo
+</a>
+
+</div>
+
+<div class="sidebar-bottom">
+<span>⚡ Ofertas selecionadas</span>
+<span>Muambay</span>
+</div>
+
 </aside>
 
 <main class="main">
+
 <div class="topbar">
-<div class="trust-left"><span class="bubble">✓</span>Ofertas encontradas para você</div>
+
+<div class="trust-left">
+<span class="bubble">✓</span>
+Ofertas encontradas para você
+</div>
+
 <div class="trust-right">
-<div class="trust-item"><div class="round-icon">⚡</div><div><div class="t-title">Ofertas</div><div class="t-sub">Preços atualizados</div></div></div>
-<div class="trust-item"><div class="round-icon">🔎</div><div><div class="t-title">Links seguros</div><div class="t-sub">Confira a oferta</div></div></div>
+
+<div class="trust-item">
+<div class="round-icon">⚡</div>
+<div>
+<div class="t-title">Ofertas</div>
+<div class="t-sub">Preços atualizados</div>
+</div>
+</div>
+
+<div class="trust-item">
+<div class="round-icon">🔎</div>
+<div>
+<div class="t-title">Links seguros</div>
+<div class="t-sub">Confira a oferta</div>
+</div>
+</div>
+
 </div>
 </div>
 
 <section class="hero compact-hero">
+
 <div class="hero-content">
-<div class="kicker">MUAMBAY • OFERTAS</div>
-<h1>Ofertas que valem a pena.</h1>
-<p>Produtos selecionados, preços especiais e links diretos para conferir a oferta.</p>
+
+<div class="kicker">
+MUAMBAY • OFERTAS
 </div>
+
+<h1>
+Ofertas que valem a pena.
+</h1>
+
+<p>
+Produtos selecionados, preços especiais e links diretos para conferir a oferta.
+</p>
+
+</div>
+
 </section>
 
 <div class="section-head" id="ofertas">
-<div class="section-title">🔥 Ofertas em destaque</div>
-<div class="see" id="count">Carregando ofertas...</div>
+
+<div class="section-title">
+🔥 Ofertas em destaque
+</div>
+
+<div class="see" id="count">
+Carregando ofertas...
+</div>
+
 </div>
 
 <section class="products" id="products">
-<div class="empty">Carregando produtos...</div>
+
+<div class="empty">
+Carregando produtos...
+</div>
+
 </section>
 
 <section class="features" id="novidades">
-<div class="feature"><div class="feature-icon">⚡</div><div><div class="feature-title">Ofertas rápidas</div><div class="feature-desc">Produtos atualizados.</div></div></div>
-<div class="feature"><div class="feature-icon">🔎</div><div><div class="feature-title">Compare preços</div><div class="feature-desc">Veja o valor antes de comprar.</div></div></div>
-<div class="feature"><div class="feature-icon">★</div><div><div class="feature-title">Selecionados</div><div class="feature-desc">Só ofertas interessantes.</div></div></div>
-<div class="feature"><div class="feature-icon">↗</div><div><div class="feature-title">Ver oferta</div><div class="feature-desc">Você vai direto para a loja.</div></div></div>
+
+<div class="feature">
+<div class="feature-icon">⚡</div>
+<div>
+<div class="feature-title">Ofertas rápidas</div>
+<div class="feature-desc">Produtos atualizados.</div>
+</div>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🔎</div>
+<div>
+<div class="feature-title">Compare preços</div>
+<div class="feature-desc">Veja o valor antes de comprar.</div>
+</div>
+</div>
+
+<div class="feature">
+<div class="feature-icon">★</div>
+<div>
+<div class="feature-title">Selecionados</div>
+<div class="feature-desc">Só ofertas interessantes.</div>
+</div>
+</div>
+
+<div class="feature">
+<div class="feature-icon">↗</div>
+<div>
+<div class="feature-title">Ver oferta</div>
+<div class="feature-desc">Você vai direto para a loja.</div>
+</div>
+</div>
+
 </section>
+
 </main>
 </div>
 
 <script>
-const API_BASE = "https://muambay.ricardorodrigues0671.workers.dev";
-const API_URL = API_BASE + "/api/products";
+
+const API_BASE =
+"https://muambay.ricardorodrigues0671.workers.dev";
+
+const API_URL =
+API_BASE + "/api/products";
+
 
 function money(v){
- if(v===null||v===undefined||v==="") return "";
- const n=Number(v);
- return Number.isFinite(n) ? n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}) : String(v);
-}
-function esc(v){
- return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-}
-function discount(oldPrice,price){
- if(!oldPrice||!price||oldPrice<=price) return "";
- return Math.round((1-price/oldPrice)*100);
-}
-function fallbackImage(){
- return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="500" height="350"><rect width="100%" height="100%" fill="#15181c"/><text x="50%" y="50%" fill="#777" font-family="Arial" font-size="22" text-anchor="middle">Imagem indisponível</text></svg>`);
-}
-function render(products){
- const box=document.getElementById("products");
- document.getElementById("count").textContent=products.length+" oferta"+(products.length===1?"":"s");
- if(!products.length){box.innerHTML='<div class="empty">Nenhuma oferta disponível no momento.</div>';return;}
- box.innerHTML=products.map(p=>{
-   const d=discount(p.preco_antigo,p.preco);
-   let img=p.imagem_url;
-   if(Array.isArray(img)) img=img[0]?.url||img[0]?.thumbnails?.large?.url||"";
-   if(img && typeof img==="object") img=img.url||img.thumbnails?.large?.url||"";
-   img=img||fallbackImage();
-   const link=p.link||"#";
-   return `<article class="card">
-     ${d?`<div class="discount">-${d}%</div>`:""}
-     <div class="prod-img"><img src="${esc(img)}" alt="${esc(p.nome)}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImage()}'"></div>
-     <h3>${esc(p.nome||"Produto")}</h3>
-     ${p.categoria?`<div class="category">${esc(p.categoria)}</div>`:""}
-     ${p.preco!==null&&p.preco!==undefined?`<div class="price">${money(p.preco)}</div>`:""}
-     ${p.preco_antigo?`<div class="old">${money(p.preco_antigo)}</div>`:""}
-     <div class="card-actions"><button class="offer" onclick="openOffer('${esc(link)}')">↗ &nbsp; Ver oferta</button></div>
-   </article>`;
- }).join("");
-}
-function openOffer(url){
- if(!url||url==="#") return;
- window.open(url,"_blank","noopener,noreferrer");
-}
-async function load(){
- const box=document.getElementById("products");
- try{
-   const r=await fetch(API_URL,{headers:{Accept:"application/json"}});
-   if(!r.ok) throw new Error("HTTP "+r.status);
-   const data=await r.json();
-   const list = Array.isArray(data) ? data :
-                Array.isArray(data.results) ? data.results :
-                Array.isArray(data.products) ? data.products : [];
-   render(list);
- }catch(e){
-   console.error(e);
-   document.getElementById("count").textContent="Erro ao carregar";
-   box.innerHTML='<div class="error">Não foi possível carregar as ofertas.<br><small>Confira se o Worker está publicado e se /api/products está funcionando.</small></div>';
+
+ if(v===null||v===undefined||v===""){
+   return "";
  }
+
+ const n=Number(v);
+
+ return Number.isFinite(n)
+ ? n.toLocaleString(
+     "pt-BR",
+     {
+       style:"currency",
+       currency:"BRL"
+     }
+   )
+ : String(v);
+
 }
+
+
+function esc(v){
+
+ return String(v??"").replace(
+   /[&<>"']/g,
+   m=>({
+     "&":"&amp;",
+     "<":"&lt;",
+     ">":"&gt;",
+     '"':"&quot;",
+     "'":"&#039;"
+   }[m])
+ );
+
+}
+
+
+function discount(oldPrice,price){
+
+ if(
+   !oldPrice||
+   !price||
+   oldPrice<=price
+ ){
+   return "";
+ }
+
+ return Math.round(
+   (1-price/oldPrice)*100
+ );
+
+}
+
+
+function fallbackImage(){
+
+ return "data:image/svg+xml;charset=UTF-8,"+
+ encodeURIComponent(`
+ <svg xmlns="http://www.w3.org/2000/svg"
+      width="500"
+      height="350">
+
+ <rect
+   width="100%"
+   height="100%"
+   fill="#15181c"/>
+
+ <text
+   x="50%"
+   y="50%"
+   fill="#777"
+   font-family="Arial"
+   font-size="22"
+   text-anchor="middle">
+
+ Imagem indisponível
+
+ </text>
+
+ </svg>
+ `);
+
+}
+
+
+/* ==========================================================
+   RENDER DOS PRODUTOS
+   ========================================================== */
+
+function render(products){
+
+ const box =
+ document.getElementById("products");
+
+ document.getElementById("count").textContent =
+ products.length+
+ " oferta"+
+ (products.length===1?"":"s");
+
+ if(!products.length){
+
+   box.innerHTML =
+   '<div class="empty">Nenhuma oferta disponível no momento.</div>';
+
+   return;
+ }
+
+ box.innerHTML =
+ products.map(p=>{
+
+   const d =
+   discount(
+     p.preco_antigo,
+     p.preco
+   );
+
+   let img =
+   p.imagem_url;
+
+   if(Array.isArray(img)){
+     img =
+     img[0]?.url||
+     img[0]?.thumbnails?.large?.url||
+     "";
+   }
+
+   if(img && typeof img==="object"){
+     img =
+     img.url||
+     img.thumbnails?.large?.url||
+     "";
+   }
+
+   img =
+   img||fallbackImage();
+
+
+   /*
+    * CORREÇÃO:
+    * O Worker envia link_afiliado.
+    */
+
+   const link =
+   p.link_afiliado||"#";
+
+
+   return `
+
+   <article class="card">
+
+     ${
+       d
+       ?
+       `<div class="discount">-${d}%</div>`
+       :
+       ""
+     }
+
+     <div class="prod-img">
+
+       <img
+         src="${esc(img)}"
+         alt="${esc(p.nome)}"
+         loading="lazy"
+         onerror="
+           this.onerror=null;
+           this.src='${fallbackImage()}'
+         "
+       >
+
+     </div>
+
+     <h3>
+       ${esc(p.nome||"Produto")}
+     </h3>
+
+     ${
+       p.categoria
+       ?
+       `<div class="category">
+         ${esc(p.categoria)}
+       </div>`
+       :
+       ""
+     }
+
+     ${
+       p.preco!==null &&
+       p.preco!==undefined
+       ?
+       `<div class="price">
+         ${money(p.preco)}
+       </div>`
+       :
+       ""
+     }
+
+     ${
+       p.preco_antigo
+       ?
+       `<div class="old">
+         ${money(p.preco_antigo)}
+       </div>`
+       :
+       ""
+     }
+
+     <div class="card-actions">
+
+       <button
+         class="offer"
+         onclick="openOffer('${esc(link)}')">
+
+         ↗ &nbsp; Ver oferta
+
+       </button>
+
+     </div>
+
+   </article>
+
+   `;
+
+ }).join("");
+
+}
+
+
+function openOffer(url){
+
+ if(!url||url==="#"){
+   return;
+ }
+
+ window.open(
+   url,
+   "_blank",
+   "noopener,noreferrer"
+ );
+
+}
+
+
+/* ==========================================================
+   CARREGAR PRODUTOS
+   ========================================================== */
+
+async function load(){
+
+ const box =
+ document.getElementById("products");
+
+ try{
+
+   const r =
+   await fetch(
+     API_URL,
+     {
+       headers:{
+         Accept:"application/json"
+       }
+     }
+   );
+
+   if(!r.ok){
+     throw new Error("HTTP "+r.status);
+   }
+
+   const data =
+   await r.json();
+
+
+   const list =
+   Array.isArray(data)
+   ? data
+   :
+   Array.isArray(data.results)
+   ? data.results
+   :
+   Array.isArray(data.products)
+   ? data.products
+   :
+   [];
+
+
+   /* ======================================================
+      CORREÇÃO PRINCIPAL
+
+      Ordena os produtos pela coluna "Ordem"
+      do Baserow.
+
+      1 = primeiro
+      2 = segundo
+      3 = terceiro
+      4+ = depois
+
+      Produtos sem ordem vão para o final.
+   ====================================================== */
+
+   list.sort((a,b)=>{
+
+     const ordemA =
+     Number(a.ordem);
+
+     const ordemB =
+     Number(b.ordem);
+
+
+     const valorA =
+     Number.isFinite(ordemA)
+     ? ordemA
+     : 999999;
+
+
+     const valorB =
+     Number.isFinite(ordemB)
+     ? ordemB
+     : 999999;
+
+
+     return valorA - valorB;
+
+   });
+
+
+   /*
+    * Agora os produtos já estão ordenados
+    * antes de serem enviados para o mosaico.
+    */
+
+   render(list);
+
+
+ }catch(e){
+
+   console.error(e);
+
+   document.getElementById("count").textContent =
+   "Erro ao carregar";
+
+   box.innerHTML =
+   `
+   <div class="error">
+
+     Não foi possível carregar as ofertas.
+
+     <br>
+
+     <small>
+       Confira se o Worker está publicado
+       e se /api/products está funcionando.
+     </small>
+
+   </div>
+   `;
+
+ }
+
+}
+
+
 load();
+
 </script>
+
 </body>
 </html>
+
